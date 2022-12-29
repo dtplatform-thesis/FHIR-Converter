@@ -14,7 +14,7 @@
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
         ],
-        "status":"{{procedureEntry.statusCode.code}}",
+        "status": {{>ValueSet/EventStatus.hbs code=procedureEntry.statusCode.code}},
         "code":
             {{#if procedureEntry.code.translation}}
                 {{>DataType/CodeableConcept.hbs code=procedureEntry.code.translation}},
@@ -22,7 +22,7 @@
                 {{>DataType/CodeableConcept.hbs code=procedureEntry.code}},
             {{/if}}
  
-        "performedDateTime":"{{formatAsDateTime procedureEntry.effectiveTime.value}}",
+        "performedDateTime":"{{formatAsDateTime procedureEntry.effectiveTime.low.value}}",
         "bodySite":
         [
             {{>DataType/CodeableConcept.hbs code=procedureEntry.targetSiteCode}},

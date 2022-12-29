@@ -21,6 +21,28 @@
         "http://hl7.org/fhir/sid/cvx"
     {{else if (eq code '2.16.840.1.113883.6.101')}}
         "http://nucc.org/provider-taxonomy"
+    {{else if (eq code '2.16.840.1.113883.5.25')}}
+        "https://terminology.hl7.org/CodeSystem-v3-Confidentiality.html"
+    {{else if (eq code '2.16.840.1.113883.2.9.4.3.2')}}
+         "http://terminology.hl7.it/CodeSystem/it-tipoEntita/mef"
+    {{else if (eq code '2.16.840.1.113883.2.9.4.1.2')}}
+         "http://terminology.hl7.it/CodeSystem/it-tipoEntita/minsan"
+     {{else if (or (eq (length (match code '^2.16.840.1.113883.2.9.77.22.11.')) 1) (eq (length (match code '^2.16.840.1.113883.11.22.')) 1) )}}
+        "https://art-decor.org/art-decor/decor-valuesets--hl7it-?id={{code}}"
+    {{else if (eq code '2.16.840.1.113883.6.73')}}
+        "http://www.whocc.no/atc"
+    {{else if (or (eq code '2.16.840.1.113883.5.112') (eq code '2.16.840.1.113883.5.1052'))}}
+        "http://terminology.hl7.org/CodeSystem/v3-CodeSystem"
+    {{else if (eq code '2.16.840.1.113883.5.1063')}}
+        "http://terminology.hl7.org/CodeSystem/v3-ObservationValue"
+    {{else if (eq code '2.16.840.1.113883.5.4')}}
+        "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+    {{else if (eq code '2.16.840.1.113883.2.9.6.1.48')}}
+        "https://www.salute.gov.it/portale/temi/SceltaDispomedDispositivi.jsp?SRCHKEY={{key}}&tipoRicerca=TIPOLOGIA"
+    {{else if (eq code '2.16.840.1.113883.6.103')}}
+        "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes"
+    {{else if (eq code '2.16.840.1.113883.2.9.5.2.8')}}
+        "ProfiloSanitarioSinteticoIT"
     {{else if (eq (length (match code '[0123456789.]+')) 1)}}
 	    "urn:oid:{{code}}"
     {{else}}

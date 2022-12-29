@@ -21,7 +21,15 @@
             {{/each}}
         ],
         "birthDate":"{{addHyphensDate patientRole.patient.birthTime.value}}",
-        "gender":"{{toLower patientRole.patient.administrativeGenderCode.displayName}}",
+        {{#with patientRole.patient.administrativeGenderCode.displayName}}
+            "gender": {{#if (eq (toLower this) 'femmina')}}
+	           "female",
+            {{else if (eq (toLower this) 'maschio')}}
+	           "male",
+            {{else}}
+               "{{toLower this}}",
+            {{/if}}
+        {{/with}}
         "extension" : [
             {{>Extensions/Race.hbs patient=patientRole.patient}},
             {{>Extensions/Ethnicity.hbs patient=patientRole.patient}},

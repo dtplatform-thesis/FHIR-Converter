@@ -10,22 +10,38 @@
             {{/each}}
         ],
         "status":{{>ValueSet/MedicationStatementStatus.hbs code=medicationStatement.statusCode.code}},
-        "effectivePeriod":
+        {{#with (elementAt medicationStatement.effectiveTime 0) as |period|}}
+        "effectivePeriod": 
         {
-            "start":"{{formatAsDateTime medicationStatement.effectiveTime.low.value}}",
-            "end":"{{formatAsDateTime medicationStatement.effectiveTime.high.value}}"
+            "start":"{{formatAsDateTime period.low.value}}",
+            "end":"{{formatAsDateTime period.high.value}}"
         },
+        {{/with}}
+        "route": {{>DataType/CodeableConcept.hbs code=medicationStatement.routeCode}},
+        "site": {{>DataType/CodeableConcept.hbs code=medicationStatement.approachSiteCode}},
         "dosage":
         [
             {
                 "doseAndRate": [
-                {
-                    "doseQuantity":
                     {
-                        "value":{{medicationStatement.doseQuantity.value}},
-                        "unit":"{{medicationStatement.doseQuantity.unit}}"
-                    }
-                },
+                        {{#with medicationStatement.doseQuantity as |dosage|}}
+                            {{#if (eq dosage.high.value dosage.low.value)}}
+                                "doseQuantity": {{>DataType/Quantity.hbs quantity=dosage.low}},
+                            {{else}}
+                                "doseRange": {{>DataType/Range.hbs dosage=dosage}},
+                            {{/if}} 
+                        {{/with}}
+
+
+                        {{#with medicationStatement.rateQuantity as |rate|}}
+                            {{#if (eq rate.high.value rate.low.value)}}
+                                "rateQuantiry": {{>DataType/Quantity.hbs quantity=rate.low}},
+                            {{else}}
+                                "rateRange": {{>DataType/Range.hbs dosage=rate}},
+                            {{/if}} 
+                        {{/with}}
+                                                    
+                    },
                 ],
             },
         ]

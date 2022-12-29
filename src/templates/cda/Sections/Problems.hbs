@@ -1,12 +1,10 @@
-{{#if (contains (toString (toJsonString msg)) '2.16.840.1.113883.10.20.22.2.5.1')}}
-    {{#with (getFirstCdaSectionsByTemplateId msg '2.16.840.1.113883.10.20.22.2.5.1')}}
-        {{#each (toArray 2_16_840_1_113883_10_20_22_2_5_1.entry)}}
-            {{#each (toArray this.act.entryRelationship) as |condEntry|}}
-                {{>Resources/Condition.hbs conditionEntry=condEntry.observation ID=(generateUUID (toJsonString condEntry.observation))}},
-                {{#with (evaluate 'Utils/GeneratePatientId.hbs' obj=../../../msg.ClinicalDocument.recordTarget.patientRole) as |patientId|}}
-                    {{>References/Condition/subject.hbs ID=(generateUUID (toJsonString condEntry.observation)) REF=(concat 'Patient/' patientId.Id)}},
-                {{/with}}
-            {{/each}}
+{{#each (toArray this.entry) as |entry|}}
+    {{#if (eq entry.act.templateId.root "2.16.840.1.113883.2.9.10.1.4.3.4.1")}}
+        {{#each (toArray entry.act.entryRelationship) as |condEntry|}}
+            {{>Resources/Condition.hbs conditionEntry=condEntry.observation ID=(generateUUID (toJsonString condEntry.observation))}},
+            {{#with (evaluate 'Utils/GeneratePatientId.hbs' obj=../../DOC.recordTarget.patientRole) as |patientId|}}
+                {{>References/Condition/subject.hbs ID=(generateUUID (toJsonString condEntry.observation)) REF=(concat 'Patient/' patientId.Id)}},
+            {{/with}}
         {{/each}}
-    {{/with}}
-{{/if}} 
+    {{/if}}
+{{/each}}

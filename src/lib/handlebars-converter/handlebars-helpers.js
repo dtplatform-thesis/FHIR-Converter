@@ -800,6 +800,18 @@ module.exports.external = [
         }
     },
     {
+        name: 'formatAsDate',
+        description: 'Converts an  YYYY[MM[DD]][+/-ZZZZ] string, e.g. 20040629175400.000 to date format, e.g. 2004-06-29: formatAsDate(dateString)',
+        func: function (dateString) {
+            try {
+                return getDate(dateString);
+            }
+            catch (err) {
+                throw `helper "formatAsDate" : ${err}`;
+            }
+        }
+    },
+    {
         name: 'toString',
         description: 'Converts to string: toString object',
         func: function (o) {

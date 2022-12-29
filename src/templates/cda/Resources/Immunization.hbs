@@ -9,10 +9,17 @@
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
         ],
+        
 
         {{#each (toArray imm.entryRelationship)}}
-            {{#if (contains (toJsonString this.observation.templateId) '"2.16.840.1.113883.10.20.22.4.53"')}}
+            {{#if (eq this.observation.templateId "2.16.840.1.113883.10.20.22.4.53")}}
                 "statusReason":{{>DataType/CodeableConcept.hbs code=this.observation.code}},
+            {{else if (eq this.observation.templateId.root "2.16.840.1.113883.2.9.10.1.4.3.3.3")}}
+                "expirationDate": "{{formatAsDate this.observation.value.high.value}}",
+            {{else if (eq this.observation.templateId.root "2.16.840.1.113883.2.9.10.1.4.3.3.4")}}
+                "protocolApplied": {
+                    "doseNumberPositiveInt": {{this.observation.value.value}}
+                },
             {{/if}}
         {{/each}}
 
@@ -24,13 +31,12 @@
         
         {{#each (toArray imm.consumable)}}
             {{#each (toArray this.manufacturedProduct)}}
-                {{#if (contains (toJsonString this.templateId) '"2.16.840.1.113883.10.20.22.4.54"')}}
+                {{#if (eq this.templateId.root "2.16.840.1.113883.2.9.10.1.4.3.3.2")}}
                     "vaccineCode":{{>DataType/CodeableConcept.hbs code=this.manufacturedMaterial.code}},
-                    "lotNumber":"{{this.manufacturedMaterial.IotNumberText._}}",
+                    "lotNumber":"{{this.manufacturedMaterial.lotNumberText._}}",
                 {{/if}}
             {{/each}}
         {{/each}}
-
         "status":"{{imm.statusCode.code}}",
         "route":{{>DataType/CodeableConcept.hbs code=imm.routeCode}},
         "site":{{>DataType/CodeableConcept.hbs code=imm.approachSiteCode}},      

@@ -1,29 +1,29 @@
 {{#with msg.ClinicalDocument}}
-    {{>Resources/Composition.hbs composition=this ID=(generateUUID (toJsonString this))}},
+    {{>Resources/Composition.hbs composition=this  ID=(generateUUID (toJsonString this)) patientId=(evaluate 'Utils/GeneratePatientId.hbs' obj=this.recordTarget.patientRole) authorId=(evaluate 'Utils/GeneratePractitionerId.hbs' obj=this.author.assignedAuthor)}},
+
     {{#with (evaluate 'Utils/GeneratePatientId.hbs' obj=this.recordTarget.patientRole) as |patientId|}}
     	{{>References/Composition/subject.hbs ID=(generateUUID (toJsonString ..)) REF=(concat 'Patient/' patientId.Id)}},
     {{/with}}
 
-        {{#if this.legalAuthenticator}}
-            {{#with (evaluate 'Utils/GeneratePractitionerId.hbs' obj=this.legalAuthenticator.assignedEntity) as |practitionerId|}}
-                {{>Resources/Practitioner.hbs practitioner=../legalAuthenticator.assignedEntity ID=practitionerId.Id}},
-            {{/with}}
+    {{#if this.legalAuthenticator}}
+        {{#with (evaluate 'Utils/GeneratePractitionerId.hbs' obj=this.legalAuthenticator.assignedEntity) as |practitionerId|}}
+            {{>Resources/Practitioner.hbs practitioner=../legalAuthenticator.assignedEntity ID=practitionerId.Id}},
+        {{/with}}
+    {{/if}}
+
+    {{#if this.componentOf.encompassingEncounter}}
+        {{>Resources/Encounter.hbs encounter=this.componentOf.encompassingEncounter ID=(generateUUID (toJsonString this.componentOf.encompassingEncounter))}},
+        {{>References/Composition/encounter.hbs ID=(generateUUID (toJsonString this)) REF=(concat 'Encounter/' (generateUUID (toJsonString this.componentOf.encompassingEncounter)))}},
+        {{#if  this.componentOf.encompassingEncounter.location}}
+            {{>Resources/Location.hbs location=this.componentOf.encompassingEncounter.location ID=(generateUUID (toJsonString this.componentOf.encompassingEncounter.location))}},
+            {{>References/Encounter/location.location.hbs ID=(generateUUID (toJsonString this.componentOf.encompassingEncounter)) REF=(concat 'Location/' (generateUUID (toJsonString this.componentOf.encompassingEncounter.location)))}},
         {{/if}}
+    {{/if}}
     
-        {{#if this.componentOf.encompassingEncounter}}
-            {{>Resources/Encounter.hbs encounter=this.componentOf.encompassingEncounter ID=(generateUUID (toJsonString this.componentOf.encompassingEncounter))}},
-            {{>References/Composition/encounter.hbs ID=(generateUUID (toJsonString this)) REF=(concat 'Encounter/' (generateUUID (toJsonString this.componentOf.encompassingEncounter)))}},
-            {{#if  this.componentOf.encompassingEncounter.location}}
-                {{>Resources/Location.hbs location=this.componentOf.encompassingEncounter.location ID=(generateUUID (toJsonString this.componentOf.encompassingEncounter.location))}},
-                {{>References/Encounter/location.location.hbs ID=(generateUUID (toJsonString this.componentOf.encompassingEncounter)) REF=(concat 'Location/' (generateUUID (toJsonString this.componentOf.encompassingEncounter.location)))}},
-            {{/if}}
-        {{/if}}
-        
-        {{#if this.custodian.assignedCustodian.representedCustodianOrganization.name._}}
-            {{>Resources/Organization.hbs org=this.custodian.assignedCustodian.representedCustodianOrganization ID=(generateUUID (toJsonString this.custodian.assignedCustodian.representedCustodianOrganization))}},
-    		{{>References/Composition/custodian.hbs ID=(generateUUID (toJsonString this)) REF=(concat 'Organization/' (generateUUID (toJsonString this.custodian.assignedCustodian.representedCustodianOrganization)))}},            
-        {{/if}}
-        
+    {{#if this.custodian.assignedCustodian.representedCustodianOrganization.name._}}
+        {{>Resources/Organization.hbs org=this.custodian.assignedCustodian.representedCustodianOrganization ID=(generateUUID (toJsonString this.custodian.assignedCustodian.representedCustodianOrganization))}},
+        {{>References/Composition/custodian.hbs ID=(generateUUID (toJsonString this)) REF=(concat 'Organization/' (generateUUID (toJsonString this.custodian.assignedCustodian.representedCustodianOrganization)))}},            
+    {{/if}}
 {{/with}}
     	
 {{#if msg.ClinicalDocument.author.assignedAuthor.assignedAuthoringDevice}}
@@ -35,6 +35,20 @@
     {{/if}}
 {{/if}}
         
+{{#if msg.ClinicalDocument.legalAuthenticator}}
+    {{#with (evaluate 'Utils/GeneratePractitionerId.hbs' obj=msg.ClinicalDocument.legalAuthenticator.assignedEntity) as |practitionerId|}}
+        {{>Resources/Practitioner.hbs practitioner=../msg.ClinicalDocument.legalAuthenticator.assignedEntity ID=practitionerId.Id}},
+        {{>References/Composition/attester.hbs MODE="legal" TIME=(formatAsDateTime ../msg.ClinicalDocument.legalAuthenticator.time.value) ID=(generateUUID (toJsonString ../msg.ClinicalDocument)) REF=(concat 'Practitioner/' practitionerId.Id)}},
+    {{/with}}
+{{/if}}
+
+{{#if msg.ClinicalDocument.authenticator}}
+    {{#with (evaluate 'Utils/GeneratePractitionerId.hbs' obj=msg.ClinicalDocument.authenticator.assignedEntity) as |practitionerId|}}
+        {{>Resources/Practitioner.hbs practitioner=../msg.ClinicalDocument.authenticator.assignedEntity ID=practitionerId.Id}},
+        {{>References/Composition/attester.hbs MODE="legal" TIME=(formatAsDateTime ../msg.ClinicalDocument.authenticator.time.value) ID=(generateUUID (toJsonString ../msg.ClinicalDocument)) REF=(concat 'Practitioner/' practitionerId.Id)}},
+    {{/with}}
+{{/if}}
+
 {{#if msg.ClinicalDocument.author.assignedAuthor}}
     {{#with (evaluate 'Utils/GeneratePractitionerId.hbs' obj=msg.ClinicalDocument.author.assignedAuthor) as |practitionerId|}}
         {{>Resources/Practitioner.hbs practitioner=../msg.ClinicalDocument.author.assignedAuthor ID=practitionerId.Id}},
@@ -50,5 +64,4 @@
             {{>References/RelatedPerson/patient.hbs ID=(generateUUID (toJsonString ../patient.guardian)) REF=(concat 'Patient/' patientId.Id)}},
         {{/if}}
     {{/with}}
-
 {{/with}}     

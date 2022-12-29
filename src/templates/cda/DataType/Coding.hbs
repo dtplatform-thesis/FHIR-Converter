@@ -1,5 +1,5 @@
 {
 	"code":"{{code.code}}",
-	"display":"{{code.displayName}}",
-	"system":{{>ValueSet/SystemReference.hbs code=code.codeSystem}},
+	"display":"{{toLower code.displayName}}",
+	"system":{{>ValueSet/SystemReference.hbs code=code.codeSystem key=code.code}},
 },

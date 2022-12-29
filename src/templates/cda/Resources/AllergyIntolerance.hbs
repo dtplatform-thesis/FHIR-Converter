@@ -25,7 +25,7 @@
 
                 {{#each (toArray allergyEntry.entryRelationship)}}
                     
-                    {{#if (contains (toJsonString this.observation.templateId) '"2.16.840.1.113883.10.20.22.4.9"')}}
+                    {{#if (contains (toJsonString this.observation.templateId) '"2.16.840.1.113883.2.9.10.1.4.3.1.5.1"')}}
                         "manifestation":
                         [
                             {{#if this.observation.value.translation}}
@@ -37,11 +37,11 @@
                         "onset": "{{formatAsDateTime this.observation.effectiveTime.low.value}}", 
                     {{/if}}
                     
-                    {{#if (contains (toJsonString this.observation.templateId) '"2.16.840.1.113883.10.20.22.4.8"')}}
+                    {{#if (contains (toJsonString this.observation.templateId) '"2.16.840.1.113883.2.9.10.1.4.3.1.5.3"')}}
                         {{#if this.observation.value.translation}}
-                            "severity":"{{>ValueSet/AllergySeverity.hbs sev=this.observation.value.translation.displayName}}",
+                            "severity": {{>ValueSet/AllergySeverity.hbs sev=this.observation.value.translation.displayName}},
                         {{else}}
-                            "severity":"{{>ValueSet/AllergySeverity.hbs sev=this.observation.value.displayName}}",
+                            "severity": {{>ValueSet/AllergySeverity.hbs sev=this.observation.value.displayName}},
                         {{/if}}
                     {{/if}}
                     

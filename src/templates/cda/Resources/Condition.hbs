@@ -9,14 +9,19 @@
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
         ],
-        "clinicalStatus":
-        [ 
+        
             {{#each (toArray conditionEntry.entryRelationship)}}
-                {{#if (eq this.observation.templateId.root '2.16.840.1.113883.10.20.22.4.5')}} 
-                    {{>DataType/CodeableConcept.hbs code=this.observation.value}},
+                {{#if (eq this.observation.templateId.root '2.16.840.1.113883.2.9.10.1.4.3.1.6')}}
+                    "clinicalStatus":
+                    [ 
+                        {{>DataType/CodeableConcept.hbs code=this.observation.value}},
+                    ],
+                {{else if (eq this.observation.templateId.root '2.16.840.1.113883.2.9.10.1.4.3.4.4')}}
+                    "severity": {{>DataType/CodeableConcept.hbs code=this.observation.value}},
+                {{else if (eq this.observation.templateId.root "2.16.840.1.113883.2.9.10.1.4.3.4.5")}}
+                   {{! map chronicity information via >DataType/CodeableConcept.hbs code=this.observation.value }}
                 {{/if}}
           {{/each}}
-        ],  
         "code":
             {{#if conditionEntry.value.translation}}
                 {{#with (elementAt (toArray conditionEntry.value.translation) 0)}}

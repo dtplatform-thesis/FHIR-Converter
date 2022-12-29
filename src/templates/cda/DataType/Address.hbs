@@ -6,7 +6,7 @@
        	{{/each}}
     ],
     "city": "{{addr.city._}}",
-    "state": "{{addr.state._}}",
-    "country": "{{addr.country._}}",
+    "state": "{{>ValueSet/StateReference.hbs state=addr.state._}}",
+    "country": "{{>ValueSet/CountryReference.hbs country=addr.country._}}",
     "postalCode": "{{addr.postalCode._}}",
 },

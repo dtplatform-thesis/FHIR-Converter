@@ -1,0 +1,45 @@
+{{#each (toArray section.entry)}} 
+    {{#if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.1')}}
+        {{#each (toArray this.act.entryRelationship)}}  
+            {{>DataType/Entry.hbs res=../../res entry=this.observation}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.2')}}
+        {{#each (toArray this.substanceAdministration)}} 
+            {{>DataType/Entry.hbs res=../../res entry=this}}
+        {{/each}} 
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.9')}}
+        {{#each (toArray this.supply)}}                           	
+            {{>DataType/Entry.hbs res=../../res entry=this}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.4')}}
+        {{#each (toArray this.act.entryRelationship)}}                           	
+            {{>DataType/Entry.hbs res=../../res entry=this.observation}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.11')}}
+        {{#each (toArray this.procedure)}}                           	
+            {{>DataType/Entry.hbs res=../../res entry=this}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.13')}}
+        {{#each (toArray this.organizer.component)}} 
+            {{>DataType/Entry.hbs res=../../res entry=this.observation}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.6')}}
+        {{#each (toArray this.observation)}} 
+            {{>DataType/Entry.hbs res=../../res entry=this}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.8')}}
+        {{#each (toArray this.observation)}} 
+            {{>DataType/Entry.hbs res=../../res entry=this}}
+        {{/each}}
+        {{#each (toArray this.organizer.component)}} 
+            {{>DataType/Entry.hbs res=../../res entry=this.observation}}
+        {{/each}}
+    {{else if (eq ../section.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.3')}}
+        {{#each (toArray this.substanceAdministration)}} 
+            {{>DataType/Entry.hbs res=../../res entry=this}}
+        {{/each}}
+    {{/if}}
+{{/each}}
+
+
+
