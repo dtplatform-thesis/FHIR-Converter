@@ -1,0 +1,35 @@
+{
+    "resourceType": "Bundle",
+    "type": "document",
+    "meta": {
+      "security": {{>DataType/CodeableConcept.hbs code=msg.ClinicalDocument.confidentialityCode}}
+    },
+    "identifier": {{>DataType/Identifier.hbs id=msg.ClinicalDocument.id}},
+    "timestamp": "{{formatAsDateTime msg.ClinicalDocument.effectiveTime.value}}",
+    "entry": [
+    	{{>Header.hbs}},
+        {{#each (toArray msg.ClinicalDocument.component.structuredBody.component)}}
+            {{#each (toArray this.section)}}
+                {{#if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.1')}}
+                    {{>Sections/Allergies_and_Adverse_Reactions.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.2')}}
+                    {{>Sections/Medication.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.4')}}
+                    {{>Sections/Problems.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.9')}}
+                    {{>Sections/Medical_Equipment.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.11')}}
+                    {{>Sections/Procedures.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.13')}}
+                    {{>Sections/Functional_Status.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.6')}}
+                    {{>Sections/Social_History.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.8')}}
+                    {{>Sections/Vital_Signs.hbs DOC=../../msg.ClinicalDocument}}
+                {{else if (eq this.templateId.root '2.16.840.1.113883.2.9.10.1.4.2.3')}}
+                    {{>Sections/Immunization.hbs DOC=../../msg.ClinicalDocument}}
+                {{/if}}
+            {{/each}}
+        {{/each}}
+      ]
+}
