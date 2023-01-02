@@ -9,6 +9,7 @@
         	{{#each (toArray goalEntry.id)}}
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
         
         "description":{{>DataType/CodeableConcept.hbs code=goalEntry.code}},

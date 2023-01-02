@@ -3,6 +3,10 @@
     "resource":{
         "resourceType": "Medication",
         "id":"{{ID}}",
+        "identifier": 
+        [
+            {{>DataType/Identifier2.hbs id=ID}}
+        ],
         "code":        
             {{#if medication.code.translation}}
                 {{#with (elementAt (toArray medication.code.translation) 0)}}

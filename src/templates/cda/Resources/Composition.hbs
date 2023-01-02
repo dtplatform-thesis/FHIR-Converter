@@ -5,9 +5,10 @@
         "id":"{{ID}}",
         "identifier":
         [
-        	{{#with composition.setId}}
-            	{{>DataType/Identifier.hbs id=this USE='official'}},
-            {{/with}}
+        	{{!#with composition.setId}}
+            	{{!>DataType/Identifier.hbs id=this USE='official'}},
+            {{!/with}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
 		"status": {{>ValueSet/CompositionStatus.hbs code="final"}},
         "version": "{{composition.versionNumber.value}}",

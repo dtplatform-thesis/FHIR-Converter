@@ -6,8 +6,9 @@
         "identifier":
   		[
         	{{#each (toArray medicationRequest.id)}}
-            	{{>DataType/Identifier.hbs id=this}}
+            	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
         "intent":"order",
         "status":"{{medicationRequest.statusCode.code}}",

@@ -13,6 +13,7 @@
         	{{#each (toArray procedureEntry.id)}}
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
         "status": {{>ValueSet/EventStatus.hbs code=procedureEntry.statusCode.code}},
         "code":

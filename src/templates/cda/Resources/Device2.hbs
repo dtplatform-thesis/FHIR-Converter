@@ -8,6 +8,7 @@
         	{{#each (toArray deviceEntry.id)}}
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
 		"type":
         {{#if deviceEntry.code}}

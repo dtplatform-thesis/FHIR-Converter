@@ -6,8 +6,9 @@
         "identifier":
   		[
         	{{#each (toArray medicationStatement.id)}}
-            	{{>DataType/Identifier.hbs id=this}}
+            	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
         "status":{{>ValueSet/MedicationStatementStatus.hbs code=medicationStatement.statusCode.code}},
         {{#with (elementAt medicationStatement.effectiveTime 0) as |period|}}

@@ -1,0 +1,13 @@
+{{#if id}}
+  {
+    "system": "http://dtplatform-thesis.github.io",
+    "value":"{{id}}",
+    "use": "secondary"
+  },
+  {{else}}
+  {{!-- If the extension is not present, the root is supposed to be universally unique --}}
+  {
+    "system":"urn:ietf:rfc:3986",
+    "value":"urn:uuid:{{id.root}}",
+  },
+{{/if}}

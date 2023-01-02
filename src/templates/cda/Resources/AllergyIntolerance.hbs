@@ -8,6 +8,7 @@
         	{{#each (toArray allergyEntry.id)}}
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
         "clinicalStatus": {
             "coding": [
@@ -50,7 +51,7 @@
         ],
         "onsetDateTime":"{{formatAsDateTime allergyEntry.effectiveTime.low.value}}",
     },
-    "request":{
+    "request": {
         "method":"PUT",
         "url":"AllergyIntolerance/{{ID}}",
     },

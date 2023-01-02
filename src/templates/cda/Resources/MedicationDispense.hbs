@@ -8,6 +8,7 @@
         	{{#each (toArray medDispense.id)}}
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ],
         "status":"{{medDispense.statusCode.code}}",
         "whenPrepared":"{{formatAsDateTime medDispense.effectiveTime.value}}",

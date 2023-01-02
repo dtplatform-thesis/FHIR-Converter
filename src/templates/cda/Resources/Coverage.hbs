@@ -8,6 +8,7 @@
             {{#each (toArray payerEntry.id)}}
             	{{>DataType/Identifier.hbs id=this}},
             {{/each}}
+            {{>DataType/Identifier2.hbs id=ID}}
         ], 
         "status":{{>ValueSet/FMStatus.hbs payerEntry.statusCode.code}},
         "relationship":{{>DataType/CodeableConcept.hbs code=payerEntry.code}},      
