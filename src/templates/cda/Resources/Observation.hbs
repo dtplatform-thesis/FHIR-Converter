@@ -8,7 +8,7 @@
 			]
 		},
         "id":"{{ID}}",
-        
+
         "identifier":
         [
         	{{#each (toArray observationEntry.id)}}
@@ -16,7 +16,7 @@
             {{/each}}
             {{>DataType/Identifier2.hbs id=ID}}
         ],
-        
+
         {{#if observationCategory}}
              "category": [
                   {
@@ -29,14 +29,14 @@
                   }
             ],
         {{/if}}
-        
+
         "status":{{>ValueSet/ObservationStatus.hbs code=observationEntry.statusCode.code}},
         {{#if observationEntry.code.translation.code}}
             "code": {{>DataType/CodeableConcept.hbs code=observationEntry.code.translation}},
         {{else}}
             "code": {{>DataType/CodeableConcept.hbs code=observationEntry.code}},
         {{/if}}
-        
+
         {{#if observationEntry.effectiveTime.low.value}}
             "effectivePeriod":
             {
@@ -46,38 +46,25 @@
         {{else}}
             "effectiveDateTime":"{{formatAsDateTime observationEntry.effectiveTime.value}}",
         {{/if}}
-        
+
         "bodySite":{{>DataType/CodeableConcept.hbs code=observationEntry.targetSiteCode}},
-        
+
         {{#if observationEntry.value.code}}
             "valueCodeableConcept":{{>DataType/CodeableConcept.hbs code=observationEntry.value}},
         {{else if observationEntry.value.value}}
-            "valueQuantity":
-            {
-                "value":{{observationEntry.value.value}},
-                "unit":"{{observationEntry.value.unit}}",
-            }, 
+            "valueQuantity": {{>DataType/Quantity.hbs quantity=observationEntry.value}},
         {{else}}
             "valueString":"{{observationEntry.value._}}",
         {{/if}}
-        
-        "referenceRange":
-        [
-          {
-            "low":
-                {
-                    "value":{{observationEntry.referenceRange.observationRange.value.low.value}},
-                    "unit":"{{observationEntry.referenceRange.observationRange.value.low.unit}}",
-                }
-           "high":
-               {
-                   "value":{{observationEntry.referenceRange.observationRange.value.high.value}},
-                   "unit":"{{observationEntry.referenceRange.observationRange.value.high.unit}}",
-               }
-          },
-        ],
-        "interpretation":
-        [
+
+        {{#with observationEntry.referenceRange.observationRange.value}}
+          "referenceRange": [{
+            "low": {{>DataType/Quantity.hbs quantity=this.low.value}}
+            "high": {{>DataType/Quantity.hbs quantity=this.high.value}}
+          }],
+        {{/with}}
+
+        "interpretation": [
             {{>DataType/CodeableConcept.hbs code=observationEntry.interpretationCode}},
         ],
     },
